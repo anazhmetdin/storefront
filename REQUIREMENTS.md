@@ -48,7 +48,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## Tables
 
-* products (id:bigint, name:varchar, price:real)
-* users (id:bigint, firstName:varchar, lastName:varchar, password:varchar)
-* orders (id:bigint, user_id:bigint, status:boolean)
-* orders_products (order_id:bigint, product_id:bigint, quantity:integer)
+* products (id:serial, name:varchar, price:real)
+* users (id:serial, firstName:varchar, lastName:varchar, password:varchar)
+* orders (id:serial, user_id:serial, active:boolean)
+* orders_products (order_id:serial, product_id:serial, quantity:integer)
