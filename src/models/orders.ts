@@ -1,5 +1,5 @@
 // @ts-ignore
-import Client from '../database'
+import Client from '../databases'
 
 export type Order = {
     id: number;
@@ -8,9 +8,15 @@ export type Order = {
 };
 
 export class OrderList {
-    async show(user_id: number): Promise<Order> {
+    async index(user_id: number): Promise<Order> {
         try {
-            const sql = 'SELECT * FROM orders WHERE user_id=($1) AND active=TRUE'
+            const sql = `SELECT o.*, op.product_id, op.quantity, p.name, p.price*op.quantity as subtotal
+                FROM orders o
+                INNER JOIN orders_products op
+                ON o.id = op.order_id
+                INNER JOIN products p
+                ON op.product_id = p.id
+                WHERE o.user_id=($1) AND o.active=TRUE`
             // @ts-ignore
             const conn = await Client.connect()
         
@@ -18,7 +24,7 @@ export class OrderList {
         
             conn.release()
         
-            return result.rows
+            return result.rows[0]
         } catch (err) {
             throw new Error(`Could not find user ${user_id}. Error: ${err}`)
         }

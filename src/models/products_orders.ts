@@ -1,5 +1,5 @@
 // @ts-ignore
-import Client from '../database'
+import Client from '../databases'
 import { Order, OrderList } from './orders'
 
 export type OrderProductDetails = {
@@ -27,21 +27,22 @@ export class OrderProductList {
                 order: order,
                 products: [] as OrderProductDetails[]
             }
+
             
             for (var _productsDetails of _ordersProducts.products) {
                 const productsDetails = await conn
-                    .query(sql, [_ordersProducts.order.id,
+                    .query(sql, [order.id,
                         _productsDetails.product_id,
                         _productsDetails.quantity])
-                
+                    
                 ordersProducts.products.push({
-                    product_id: productsDetails.product_id,
-                    quantity: productsDetails.quantity
+                    product_id: productsDetails.rows[0].product_id,
+                    quantity: productsDetails.rows[0].quantity
                 })
             }
-        
+                
             conn.release()
-        
+                
             return ordersProducts
         } catch (err) {
             throw new Error(`Could not add the new order for user ${_ordersProducts.order.user_id}. Error: ${err}`)
