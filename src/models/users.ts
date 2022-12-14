@@ -1,14 +1,21 @@
 // @ts-ignore
 import Client from '../database'
+import bcrypt from 'bcrypt'
+import dotenv from 'dotenv'
 
 export type User = {
     id: number;
     firstName: string;
     lastName: string;
-    password: string;
+    password_digest: string;
 };
 
-export class UserList {
+dotenv.config()
+const pepper = process.env.BCRYPT_PASSWORD as string;
+const saltRounds = process.env.SALT_ROUNDS as string;
+
+export class UserList {  
+
     async index(): Promise<User[]> {
         try {
             // @ts-ignore
@@ -27,7 +34,7 @@ export class UserList {
   
     async show(id: number): Promise<User> {
         try {
-            const sql = 'SELECT id, firstName, lastName FROM users WHERE id=($1)'
+            const sql = 'SELECT * FROM users WHERE id=($1)'
             // @ts-ignore
             const conn = await Client.connect()
         
@@ -43,12 +50,17 @@ export class UserList {
   
     async create(_user: User): Promise<User> {
         try {
-            const sql = 'INSERT INTO users (name, price) VALUES($1, $2) RETURNING id, firstName, lastName'
+            const sql = 'INSERT INTO users (firstName, lastName, password_digest) VALUES($1, $2, $3) RETURNING *'
             // @ts-ignore
             const conn = await Client.connect()
+
+            const hash = bcrypt.hashSync(
+                _user.password_digest + pepper, 
+                parseInt(saltRounds)
+            );
         
             const result = await conn
-                .query(sql, [_user.firstName, _user.lastName, _user.password])
+                .query(sql, [_user.firstName, _user.lastName, hash])
         
             const user = result.rows[0]
         

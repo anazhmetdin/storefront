@@ -1,4 +1,3 @@
-
 # API Requirements
 
 The company stakeholders want to create an online storefront to showcase their great product ideas. Users need to be able to browse an index of all products, see the specifics of a single product, and add products to an order that they can view in a cart page. You have been tasked with building the API that will support this application, and your coworker is building the frontend.
@@ -50,6 +49,6 @@ These are the notes from a meeting with the frontend developer that describe wha
 ## Tables
 
 * products (id:serial, name:varchar, price:real)
-* users (id:serial, firstName:varchar, lastName:varchar, password:varchar)
+* users (id:serial, firstName:varchar, lastName:varchar, password_digest:varchar)
 * orders (id:serial, user_id:serial, active:boolean)
 * orders_products (order_id:serial, product_id:serial, quantity:integer)
