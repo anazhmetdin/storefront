@@ -9,8 +9,7 @@ const userList = new UserList();
 const authenticate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const authorizationHeader = req.headers.authorization;
-        const token = authorizationHeader?.split(' ')[1]
-        jwt.verify(token as string, process.env.BCRYPT_PASSWORD as jwt.Secret)
+        jwt.verify(authorizationHeader as string, process.env.BCRYPT_PASSWORD as jwt.Secret)
         next()
     } catch (error) {
         res.status(401).send('Access denied!')
@@ -29,8 +28,7 @@ const create = async (req: express.Request, res: express.Response) => {
         var token = jwt.sign({ user: newUser }, process.env.BCRYPT_PASSWORD as jwt.Secret);
         res.json(token)
     } catch(err) {
-        res.status(400)
-        res.json(err?? + user)
+        res.status(400).send(err);
     }
 }
 
@@ -49,15 +47,13 @@ const show = async (req: express.Request, res: express.Response) => {
 
     try {
         const authorizationHeader = req.headers.authorization
-        const token = authorizationHeader?.split(' ')[1]
-        const decoded = jwt.verify(token as string, process.env.BCRYPT_PASSWORD as jwt.Secret)
+        const decoded = jwt.verify(authorizationHeader as string, process.env.BCRYPT_PASSWORD as jwt.Secret) as jwt.JwtPayload
         
-        if((decoded as jwt.JwtPayload).id !== id) {
+        if(decoded.user.id !== id) {
             throw new Error('User id does not match!')
         }
     } catch(err) {
-        res.status(401)
-        res.json(err)
+        res.status(401).send(err)
         return
     }
 

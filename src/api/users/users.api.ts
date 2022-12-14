@@ -4,13 +4,13 @@ import usersMW from '../../middleware/users.mw'
 export const usersRouter = Router()
 
 usersRouter.get(
-    '/users/',
+    '/users',
     usersMW.authenticate,
     usersMW.index
 )
 
 usersRouter.post(
-    '/users/',
+    '/users',
     usersMW.create
 )
 

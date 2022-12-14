@@ -1,5 +1,5 @@
 // @ts-ignore
-import Client from '../database'
+import Client from '../databases'
 import bcrypt from 'bcrypt'
 import dotenv from 'dotenv'
 
@@ -53,15 +53,15 @@ export class UserList {
             const sql = 'INSERT INTO users (firstName, lastName, password_digest) VALUES($1, $2, $3) RETURNING *'
             // @ts-ignore
             const conn = await Client.connect()
-
             const hash = bcrypt.hashSync(
                 _user.password_digest + pepper, 
                 parseInt(saltRounds)
-            );
-        
+                );
+                
+            console.log('creating', hash, _user)
             const result = await conn
                 .query(sql, [_user.firstName, _user.lastName, hash])
-        
+            console.log('created')
             const user = result.rows[0]
         
             conn.release()
