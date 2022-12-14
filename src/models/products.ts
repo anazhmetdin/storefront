@@ -1,5 +1,5 @@
 // @ts-ignore
-import Client from '../database'
+import Client from '../databases'
 
 export type Product = {
     id: number;
