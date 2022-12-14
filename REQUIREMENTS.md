@@ -49,6 +49,6 @@ These are the notes from a meeting with the frontend developer that describe wha
 ## Tables
 
 * products (id:serial, name:varchar, price:real)
-* users (id:serial, firstName:varchar, lastName:varchar, password_digest:varchar)
+* users (id:serial, first_name:varchar, last_name:varchar, password_digest:varchar)
 * orders (id:serial, user_id:serial, active:boolean)
 * orders_products (order_id:serial, product_id:serial, quantity:integer)

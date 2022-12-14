@@ -4,7 +4,7 @@ import {usersRouter} from './api/users/users.api'
 import {productsRouter} from './api/products/products.api'
 import {ordersRouter} from './api/orders/orders.api'
 
-const app: express.Application = express()
+export const app: express.Application = express()
 const address: string = "0.0.0.0:3000"
 
 app.use(bodyParser.json())

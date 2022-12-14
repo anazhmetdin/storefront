@@ -5,8 +5,8 @@ import dotenv from 'dotenv'
 
 export type User = {
     id: number;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     password_digest: string;
 };
 
@@ -20,7 +20,7 @@ export class UserList {
         try {
             // @ts-ignore
             const conn = await Client.connect()
-            const sql = 'SELECT id, firstName, lastName FROM users'
+            const sql = 'SELECT id, first_name, last_name FROM users'
     
             const result = await conn.query(sql)
     
@@ -50,7 +50,7 @@ export class UserList {
   
     async create(_user: User): Promise<User> {
         try {
-            const sql = 'INSERT INTO users (firstName, lastName, password_digest) VALUES($1, $2, $3) RETURNING *'
+            const sql = 'INSERT INTO users (first_name, last_name, password_digest) VALUES($1, $2, $3) RETURNING *'
             // @ts-ignore
             const conn = await Client.connect()
             const hash = bcrypt.hashSync(
@@ -58,17 +58,16 @@ export class UserList {
                 parseInt(saltRounds)
                 );
                 
-            console.log('creating', hash, _user)
             const result = await conn
-                .query(sql, [_user.firstName, _user.lastName, hash])
-            console.log('created')
+                .query(sql, [_user.first_name, _user.last_name, hash])
+
             const user = result.rows[0]
         
             conn.release()
         
             return user
         } catch (err) {
-            throw new Error(`Could not add the new user ${_user.firstName} ${_user.lastName}. Error: ${err}`)
+            throw new Error(`Could not add the new user ${_user.first_name} ${_user.last_name}. Error: ${err}`)
         }
     }
 }

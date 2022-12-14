@@ -19,8 +19,8 @@ const authenticate = (req: express.Request, res: express.Response, next: express
 const create = async (req: express.Request, res: express.Response) => {
     const user: User = {
         id: -1,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
         password_digest: req.body.password,
     }
     try {
