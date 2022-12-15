@@ -16,7 +16,6 @@ app.get('/', function (req: Request, res: Response) {
 app.use('/api', usersRouter)
 app.use('/api', productsRouter)
 app.use('/api', ordersRouter)
-app.use('/api', ordersRouter)
 
 app.listen(3000, function () {
     console.log(`starting app on: ${address}`)
