@@ -1,4 +1,4 @@
-// @ts-ignore
+
 import Client from '../databases'
 
 export type Order = {
@@ -7,8 +7,18 @@ export type Order = {
     active: boolean;
 };
 
+export type orderProductDetailed = {
+    id: number;
+    user_id: number;
+    active: boolean;
+    product_id: number;
+    quantity: number;
+    name: string;
+    subtotal: number
+}
+
 export class OrderList {
-    async index(user_id: number): Promise<Order> {
+    async index(user_id: number): Promise<orderProductDetailed[]> {
         try {
             const sql = `SELECT o.*, op.product_id, op.quantity, p.name, p.price*op.quantity as subtotal
                 FROM orders o
@@ -17,14 +27,12 @@ export class OrderList {
                 INNER JOIN products p
                 ON op.product_id = p.id
                 WHERE o.user_id=($1) AND o.active=TRUE`
-            // @ts-ignore
             const conn = await Client.connect()
-        
+            
             const result = await conn.query(sql, [user_id])
-        
+            
             conn.release()
-        
-            return result.rows[0]
+            return result.rows
         } catch (err) {
             throw new Error(`Could not find user ${user_id}. Error: ${err}`)
         }
@@ -33,7 +41,7 @@ export class OrderList {
     async create(_order: Order): Promise<Order> {
         try {
             const sql = 'INSERT INTO orders (user_id, active) VALUES($1, TRUE) RETURNING *'
-            // @ts-ignore
+            
             const conn = await Client.connect()
         
             const result = await conn
