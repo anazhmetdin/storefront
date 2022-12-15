@@ -31,7 +31,7 @@ export class ProductVendor {
             const conn = await Client.connect()
         
             const result = await conn.query(sql, [id])
-        
+
             conn.release()
         
             return result.rows[0]

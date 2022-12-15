@@ -28,8 +28,8 @@ const index = async (req: express.Request, res: express.Response) => {
 
 const show = async (req: express.Request, res: express.Response) => {
     try {
-        const user = await productVendor.show(parseInt(req.params.id))
-        res.json(user)
+        const product = await productVendor.show(parseInt(req.params.id))
+        res.json(product)
     } catch(err) {
         res.status(400).json(err)
     }

@@ -16,6 +16,6 @@ productsRouter.post(
 )
 
 productsRouter.get(
-    '/users/:id',
+    '/products/:id',
     productsMW.show
 )
