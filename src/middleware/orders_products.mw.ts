@@ -1,7 +1,7 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import { Order } from '../models/orders'
-import { OrdersProducts, OrderProductDetails, OrderProductList } from '../models/products_orders'
+import { OrdersProducts, OrderProductDetails, OrderProductList } from '../models/orders_products'
 
 const orderProductList = new OrderProductList();
 
