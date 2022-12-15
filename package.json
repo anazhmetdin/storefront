@@ -4,9 +4,9 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "start": "node src/server.ts",
+    "start": "npm run tsc && db-migrate up && node src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "db-migrate reset --env test && npm run tsc && db-migrate --env test up && jasmine-ts && db-migrate reset --env test",
+    "test": "npm run tsc && ENV=test db-migrate --env test up && jasmine-ts && db-migrate reset --env test",
     "tsc": "tsc"
   },
   "author": "Udacity",
