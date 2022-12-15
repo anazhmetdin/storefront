@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 const userList = new UserList()
 
-describe("User Model", () => {
+describe("Users Model", () => {
   it('should have an index method', () => {
     expect(userList.index).toBeDefined();
   });
